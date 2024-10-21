@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Himical"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        Title="MainWindow" Height="850" Width="1500">
+    <Border Background="#FFB7B6B6" CornerRadius="15">
+        <Border Background="#FF1B1B1B" Margin="5" CornerRadius="10">
+            <Grid>
+                <Frame Margin="10" 
+                       x:Name="MainFrameNav" 
+                       NavigationUIVisibility="Hidden"/>
+            </Grid>
+        </Border>
+    </Border>
 </Window>
