@@ -23,6 +23,7 @@ namespace Himical
         public MainWindow()
         {
             InitializeComponent();
+            MainFrameNav.Navigate(new DatabasePage());
         }
     }
 }
