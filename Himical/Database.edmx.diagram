@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="ProductsDbModel.Categories" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsDbModel.Customers" Width="1.5" PointX="6" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsDbModel.Production" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProductsDbModel.Products" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductsDbModel.Products" Width="1.75" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsDbModel.Sales" Width="1.5" PointX="8.25" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsDbModel.Suppliers" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsDbModel.Supplies" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
