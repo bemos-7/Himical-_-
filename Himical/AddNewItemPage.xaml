@@ -64,7 +64,7 @@
 
         <Button x:Name="AddNewItem"
                 Width="100"
-                Height="50"
+                Height="40"
                 Content="Добавить" 
                 VerticalAlignment="Bottom"
                 Margin="0 0 0 100"
