@@ -21,15 +21,31 @@
                 Name="BtnAdd" 
                 Click="BtnAdd_Click"
                 />
-
-        <DataGrid Grid.Row="1" x:Name="ProductsGrid">
+        
+        <DataGrid Grid.Row="1" x:Name="ProductsGrid" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="auto">
+                <DataGridTextColumn Header="ID" Binding="{Binding product_id}" Width="Auto"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="*"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding quantity_in_stock}" Width="Auto"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding price_per_unit}" Width="Auto"/>
+                <DataGridTemplateColumn Header="Редактировать" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Редактировать" 
-                Name="BtnEdit" 
-                Click="BtnEdit_Click"/>
+                            <Button Content="Редактировать поле" 
+                                    Name="BtnEdit" 
+                                    Click="BtnEdit_Click"
+                                    Tag="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Действие" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Удалить поле" 
+                                    Name="BtnDelete" 
+                                    Click="BtnDelete_Click"
+                                    CommandParameter="{Binding}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
