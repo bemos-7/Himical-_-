@@ -30,12 +30,36 @@ namespace Himical
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
+            Button editButton = sender as Button;
+            Product productToEdit = editButton.Tag as Product;
 
+            if (productToEdit != null)
+            {
+                EditProductItemPage editProdPage = new EditProductItemPage(productToEdit);
+                this.NavigationService.Navigate(editProdPage);
+            }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new AddNewItemPage());
         }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+    public class Product
+    {
+        public int product_id { get; set; }
+        public string name { get; set; }
+        public int category_id { get; set; }
+        public int quantity_in_stock { get; set; }
+        public decimal price_per_unit { get; set; }
+        public string description { get; set; }
+        public string production_date { get; set; }
+        public string expiry_date { get; set; }
+        public int unit_of_measurement { get; set; }
     }
 }
