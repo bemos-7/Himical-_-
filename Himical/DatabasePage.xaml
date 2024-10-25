@@ -26,8 +26,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding product_id}" Width="Auto"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="*"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding category_id}" Width="Auto"/>
                 <DataGridTextColumn Header="Количество" Binding="{Binding quantity_in_stock}" Width="Auto"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding price_per_unit}" Width="Auto"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding description}" Width="*"/>
+                <DataGridTextColumn Header="Дата производства" Binding="{Binding production_date}" Width="Auto"/>
+                <DataGridTextColumn Header="Дата истечения" Binding="{Binding expiry_date}" Width="Auto"/>
+                <DataGridTextColumn Header="Ед. изм." Binding="{Binding unit_of_measurement}" Width="Auto"/>
                 <DataGridTemplateColumn Header="Редактировать" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
