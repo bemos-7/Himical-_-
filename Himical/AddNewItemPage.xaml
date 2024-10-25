@@ -16,51 +16,56 @@
                    FontFamily="Cascadia Mono SemiBold" 
                    FontSize="30" />
 
-        <StackPanel Orientation="Vertical"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+        <Border Width="450" Height="650" Background="#FF3E3E3E" BorderThickness="2" CornerRadius="15" BorderBrush="#FFB7B6B6">
 
-            <TextBlock Text="Имя" Foreground="White" 
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <TextBox Width="auto" Height="30" FontSize="16" x:Name="NameTextBox"/>
+            <StackPanel Orientation="Vertical"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
 
-            <TextBlock Text="Категория" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16"/>
-            <TextBox Width="auto" Height="30" FontSize="16" x:Name="CategoryTextBox"/>
+                <TextBlock Text="Имя" Foreground="White" 
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="NameTextBox"/>
 
-            <TextBlock Text="Количество на складе" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <TextBox Width="auto" Height="30" FontSize="16" x:Name="QuantityTextBox"/>
+                <TextBlock Text="Категория" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16"/>
+                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="CategoryTextBox"/>
 
-            <TextBlock Text="Цена за единицу" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <TextBox Width="auto" Height="30" FontSize="16" x:Name="PriceTextBox"/>
+                <TextBlock Text="Количество на складе" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="QuantityTextBox"/>
 
-            <TextBlock Text="Описание" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <TextBox Width="auto" Height="30" FontSize="16" x:Name="DescriptionTextBox"/>
+                <TextBlock Text="Цена за единицу" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="PriceTextBox"/>
 
-            <TextBlock Text="Дата изготовления" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <DatePicker Width="auto" Height="30" FontSize="16" x:Name="ProductionDatePicker"/>
+                <TextBlock Text="Описание" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="DescriptionTextBox"/>
 
-            <TextBlock Text="Срок годности" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <DatePicker Width="auto" Height="30" FontSize="16" x:Name="ExpiryDatePicker"/>
-            
-            <TextBlock Text="Единица измерения" Foreground="White" Margin="0 10 0 0"
-                       FontFamily="Cascadia Mono SemiBold" 
-                       FontSize="16" />
-            <TextBox Width="auto" Height="30" FontSize="16" x:Name="WeightTextBox"/>
+                <TextBlock Text="Дата изготовления" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <DatePicker Width="auto" Height="30" FontSize="16" x:Name="ProductionDatePicker"/>
 
-        </StackPanel>
+                <TextBlock Text="Срок годности" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <DatePicker Width="auto" Height="30" FontSize="16" x:Name="ExpiryDatePicker"/>
+
+                <TextBlock Text="Единица измерения" Foreground="White" Margin="0 10 0 0"
+               FontFamily="Cascadia Mono SemiBold" 
+               FontSize="16" />
+                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="WeightTextBox"/>
+
+            </StackPanel>
+
+        </Border>
+
 
         <Button x:Name="AddNewItem"
                 Width="100"
