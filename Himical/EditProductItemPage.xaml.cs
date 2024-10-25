@@ -31,8 +31,8 @@ namespace Himical
             QuantityTextBox.Text = Convert.ToString(_product.quantity_in_stock);
             PriceTextBox.Text = Convert.ToString(_product.price_per_unit);
             DescriptionTextBox.Text = _product.description;
-            ProductionDatePicker.Text = _product.production_date;
-            ExpiryDatePicker.Text = _product.expiry_date;
+            ProductionDatePicker.SelectedDate = _product.production_date;
+            ExpiryDatePicker.SelectedDate = _product.expiry_date;
             WeightTextBox.Text = Convert.ToString(_product.unit_of_measurement);
         }
 
@@ -43,9 +43,9 @@ namespace Himical
             _product.quantity_in_stock = Convert.ToInt32(QuantityTextBox.Text);
             _product.price_per_unit = Convert.ToDecimal(PriceTextBox.Text);
             _product.description = DescriptionTextBox.Text;
-            _product.production_date = ProductionDatePicker.Text;
-            _product.expiry_date = ExpiryDatePicker.Text;
-            _product.unit_of_measurement = Convert.ToInt32(WeightTextBox.Text);
+            _product.production_date = ProductionDatePicker.SelectedDate;
+            _product.expiry_date = ExpiryDatePicker.SelectedDate;
+            _product.unit_of_measurement = WeightTextBox.Text;
 
             UpdateProductInDatabase(_product);
             this.NavigationService.Navigate(new DatabasePage());
