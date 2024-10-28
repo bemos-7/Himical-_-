@@ -106,6 +106,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseLoad.cs" />
     <Compile Include="EditProductItemPage.xaml.cs">
       <DependentUpon>EditProductItemPage.xaml</DependentUpon>
     </Compile>

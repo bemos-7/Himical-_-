@@ -26,7 +26,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding product_id}" Width="Auto"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="Auto"/>
-                <DataGridTextColumn Header="Категория" Binding="{Binding category_id}" Width="Auto"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding category_name}" Width="Auto"/>
                 <DataGridTextColumn Header="Количество" Binding="{Binding quantity_in_stock}" Width="Auto"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding price_per_unit}" Width="Auto"/>
                 <DataGridTextColumn Header="Описание" Binding="{Binding description}" Width="Auto"/>
