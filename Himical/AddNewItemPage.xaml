@@ -30,7 +30,11 @@
                 <TextBlock Text="Категория" Foreground="White" Margin="0 10 0 0"
                FontFamily="Cascadia Mono SemiBold" 
                FontSize="16"/>
-                <TextBox Width="auto" Height="30" Foreground="White" FontSize="16" x:Name="CategoryTextBox"/>
+                <ComboBox x:Name="CategoryComboBox"
+                          DisplayMemberPath="name"
+                          SelectedValuePath="category_id"
+                          SelectedValue="{Binding SelectedCategoryId, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Page}}"
+                          ItemsSource="{Binding CategoryCollection, RelativeSource={RelativeSource AncestorType=Page}}" />      
 
                 <TextBlock Text="Количество на складе" Foreground="White" Margin="0 10 0 0"
                FontFamily="Cascadia Mono SemiBold" 
