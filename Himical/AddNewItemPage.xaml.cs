@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 
 namespace Himical
 {
@@ -23,15 +24,24 @@ namespace Himical
     /// </summary>
     public partial class AddNewItemPage : Page
     {
+        DatabaseLoad database = new DatabaseLoad();
+
+        public ObservableCollection<Category> CategoryCollection { get; set; } = new ObservableCollection<Category>();
+
+        public int SelectedCategoryId { get; set; }
+
         public AddNewItemPage()
         {
             InitializeComponent();
+            DatabaseLoad load = new DatabaseLoad();
+            CategoryCollection = load.LoadCategoryFromDatabase();
+            CategoryComboBox.ItemsSource = CategoryCollection;
         }
 
         private void AddNewItem_Click(object sender, RoutedEventArgs e)
         {
             string prodName = NameTextBox.Text;
-            int category = int.Parse(CategoryTextBox.Text);
+            int category = SelectedCategoryId;
             int quantity = int.Parse(QuantityTextBox.Text);
             decimal price = decimal.Parse(PriceTextBox.Text);
             string description = DescriptionTextBox.Text;
@@ -39,40 +49,7 @@ namespace Himical
             DateTime expiryDate = ExpiryDatePicker.SelectedDate.HasValue ? ExpiryDatePicker.SelectedDate.Value : DateTime.Now;
             string unit = WeightTextBox.Text;
 
-            string connectionString = ConfigurationManager.ConnectionStrings["Himical.Properties.Settings.ConnectionString"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    string query = @"
-                        INSERT INTO Products 
-                        (name, category_id, quantity_in_stock, price_per_unit, description, production_date, expiry_date, unit_of_measurement) 
-                        VALUES (@ProductName, @CategoryId, @Quantity, @Price, @Description, @ProductionDate, @ExpiryDate, @Unit)";
-
-                    using (SqlCommand command = new SqlCommand(query, connection)) {
-                        command.Parameters.AddWithValue("@ProductName", prodName);
-                        command.Parameters.AddWithValue("@CategoryId", category);
-                        command.Parameters.AddWithValue("@Quantity", quantity);
-                        command.Parameters.AddWithValue("@Price", price);
-                        command.Parameters.AddWithValue("@Description", description);
-                        command.Parameters.AddWithValue("@ProductionDate", productionDate);
-                        command.Parameters.AddWithValue("@ExpiryDate", expiryDate);
-                        command.Parameters.AddWithValue("@Unit", unit);
-
-                        command.ExecuteNonQuery();
-
-                        MessageBox.Show("Продукт успешно добавлен!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error - {ex.Message}");
-                }
-            }
-
+            database.AddNewProductItemInDatabase(prodName, category, quantity, price, description, productionDate, expiryDate, unit);
             this.NavigationService.Navigate(new DatabasePage());
         }
     }
