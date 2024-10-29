@@ -39,6 +39,68 @@ namespace Himical
             return CategoryCollection;
         }
 
+        public void AddNewCategoryItemInDatabase(string name, string description)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"
+                        INSERT INTO Categories 
+                        (name, description) 
+                        VALUES (@Name, @Desc)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Name", name);
+                        command.Parameters.AddWithValue("@Desc", description);
+
+                        command.ExecuteNonQuery();
+
+                        MessageBox.Show("Продукт успешно добавлен!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error - {ex.Message}");
+                }
+            }
+        }
+
+        public void UpdateCategoryInDatabase(Category category) // Метод для изменения поля из таблицы Categories
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Categories SET name = @name, description = @desc WHERE category_id = @id";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@name", category.name);
+                    command.Parameters.AddWithValue("@desc", category.description);
+                    command.Parameters.AddWithValue("@id", category.category_id);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteCategoryFromDatabase(int categoryId) // Метод для удаления поля из таблицы Categories
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM Categories WHERE category_id = @CategoryId";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CategoryId", categoryId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public ObservableCollection<Product> LoadProductsFromDatabase() // Загрузка Таблицы Produts из БД
         {
             ObservableCollection<Product> ProductCollection = new ObservableCollection<Product>();
@@ -74,6 +136,94 @@ namespace Himical
                 }
             }
             return ProductCollection;
+        }
+
+        public ObservableCollection<Admin> LoadAdminsFormDatabase() // Метод для получения таблицы Admins из БД
+        {
+            ObservableCollection<Admin> AdminCollection = new ObservableCollection<Admin>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT admin_id, username, password_hash FROM Admins";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        AdminCollection.Add(new Admin
+                        {
+                            admin_id = reader.GetInt32(0),
+                            username = reader.GetString(1),
+                            password_hash = reader.GetString(2),
+                        });
+                    }
+                }
+            }
+            return AdminCollection;
+        }
+
+        public void AddNewAdminItemInDatabase(string username, string password_hash)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"
+                        INSERT INTO Admins 
+                        (username, password_hash) 
+                        VALUES (@UserName, @PasswordHash)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserName", username);
+                        command.Parameters.AddWithValue("@PasswordHash", password_hash);
+
+                        command.ExecuteNonQuery();
+
+                        MessageBox.Show("Продукт успешно добавлен!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error - {ex.Message}");
+                }
+            }
+        }
+
+        public void UpdateAdminInDatabase(Admin admin) // Метод для изменения поля из таблицы Products
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Admins SET username = @username, password_hash = @pass WHERE admin_id = @id";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@username", admin.username);
+                    command.Parameters.AddWithValue("@pass", admin.password_hash);
+                    command.Parameters.AddWithValue("@id", admin.admin_id);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteAdminFromDatabase(int adminId) // Метод для удаления поля из таблицы Admin
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM Admins WHERE admin_id = @AdminId";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@AdminId", adminId);
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         public void DeleteProductFromDatabase(int productId) // Метод для удаления поля из таблицы Products
@@ -169,5 +319,12 @@ namespace Himical
         public int category_id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
+    }
+
+    public class Admin
+    {
+        public int admin_id { get; set; }
+        public string username { get; set; }
+        public string password_hash { get; set; }
     }
 }
