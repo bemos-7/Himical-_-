@@ -9,6 +9,14 @@
       Title="AddNewItemPage">
 
     <Grid>
+        <Button Content="Назад" 
+                x:Name="BackBtn"
+                Width="100"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="BackBtn_Click"
+                Margin="0 10 0 0"/>
+
         <TextBlock Text="Добавление новых данных" 
                    Margin="0 30 0 0"
                    Foreground="White" 
@@ -33,6 +41,8 @@
                 <ComboBox x:Name="CategoryComboBox"
                           DisplayMemberPath="name"
                           SelectedValuePath="category_id"
+                          Foreground="White"
+                          FontSize="16"
                           SelectedValue="{Binding SelectedCategoryId, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Page}}"
                           ItemsSource="{Binding CategoryCollection, RelativeSource={RelativeSource AncestorType=Page}}" />      
 
@@ -54,12 +64,12 @@
                 <TextBlock Text="Дата изготовления" Foreground="White" Margin="0 10 0 0"
                FontFamily="Cascadia Mono SemiBold" 
                FontSize="16" />
-                <DatePicker Width="auto" Height="30" FontSize="16" x:Name="ProductionDatePicker"/>
+                <DatePicker Width="auto" Foreground="White" Height="30" FontSize="16" x:Name="ProductionDatePicker"/>
 
                 <TextBlock Text="Срок годности" Foreground="White" Margin="0 10 0 0"
                FontFamily="Cascadia Mono SemiBold" 
                FontSize="16" />
-                <DatePicker Width="auto" Height="30" FontSize="16" x:Name="ExpiryDatePicker"/>
+                <DatePicker Width="auto" Foreground="White" Height="30" FontSize="16" x:Name="ExpiryDatePicker"/>
 
                 <TextBlock Text="Единица измерения" Foreground="White" Margin="0 10 0 0"
                FontFamily="Cascadia Mono SemiBold" 

@@ -60,5 +60,10 @@ namespace Himical
             database.UpdateProductInDatabase(_product);
             this.NavigationService.Navigate(new DatabasePage());
         }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
     }
 }

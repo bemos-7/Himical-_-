@@ -22,7 +22,7 @@ namespace Himical
     /// <summary>
     /// Логика взаимодействия для AddNewItemPage.xaml
     /// </summary>
-    public partial class AddNewItemPage : Page
+    public partial class AddNewCategoryPage : Page
     {
         DatabaseLoad database = new DatabaseLoad();
 
@@ -30,26 +30,20 @@ namespace Himical
 
         public int SelectedCategoryId { get; set; }
 
-        public AddNewItemPage()
+        public AddNewCategoryPage()
         {
             InitializeComponent();
             DatabaseLoad load = new DatabaseLoad();
             CategoryCollection = load.LoadCategoryFromDatabase();
-            CategoryComboBox.ItemsSource = CategoryCollection;
         }
 
         private void AddNewItem_Click(object sender, RoutedEventArgs e)
         {
-            string prodName = NameTextBox.Text;
-            int category = SelectedCategoryId;
-            int quantity = int.Parse(QuantityTextBox.Text);
-            decimal price = decimal.Parse(PriceTextBox.Text);
+            string name = NameTextBox.Text;
             string description = DescriptionTextBox.Text;
-            DateTime productionDate = ProductionDatePicker.SelectedDate.HasValue ? ProductionDatePicker.SelectedDate.Value : DateTime.Now;
-            DateTime expiryDate = ExpiryDatePicker.SelectedDate.HasValue ? ExpiryDatePicker.SelectedDate.Value : DateTime.Now;
-            string unit = WeightTextBox.Text;
 
-            database.AddNewProductItemInDatabase(prodName, category, quantity, price, description, productionDate, expiryDate, unit);
+            database.AddNewCategoryItemInDatabase(name, description);
+
             this.NavigationService.Navigate(new DatabasePage());
         }
 

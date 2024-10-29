@@ -27,11 +27,17 @@ namespace Himical
         DatabaseLoad database = new DatabaseLoad();
 
         public ObservableCollection<Product> ProductsCollection { get; set; } = new ObservableCollection<Product>();
+        public ObservableCollection<Category> CategoryCollection { get; set; } = new ObservableCollection<Category>();
+        public ObservableCollection<Admin> AdminCollection { get; set; } = new ObservableCollection<Admin>();
         public DatabasePage()
         {
             InitializeComponent();
             ProductsCollection = database.LoadProductsFromDatabase();
+            CategoryCollection = database.LoadCategoryFromDatabase();
+            AdminCollection = database.LoadAdminsFormDatabase();
             ProductsGrid.ItemsSource = ProductsCollection;
+            CategoriesGrid.ItemsSource = CategoryCollection;
+            AdminsGrid.ItemsSource = AdminCollection;
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
@@ -64,6 +70,72 @@ namespace Himical
                     ProductsCollection = database.LoadProductsFromDatabase();
                     ProductsGrid.ItemsSource = ProductsCollection;
                 }
+            }
+        }
+
+        private void BtnAddCategory_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new AddNewCategoryPage());
+        }
+
+        private void BtnCategoryDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Button editButton = sender as Button;
+            Category category = editButton?.CommandParameter as Category;
+
+            if (category != null)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите удалить эту запись?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    database.DeleteCategoryFromDatabase(category.category_id);
+                    CategoryCollection = database.LoadCategoryFromDatabase();
+                    CategoriesGrid.ItemsSource = CategoryCollection;
+                }
+            }
+        }
+
+        private void BtnCategoryEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button editButton = sender as Button;
+            Category categoryToEdit = editButton?.Tag as Category;
+
+            if (categoryToEdit != null)
+            {
+                EditCategoryItemPage editProdPage = new EditCategoryItemPage(categoryToEdit);
+                this.NavigationService.Navigate(editProdPage);
+            }
+        }
+
+        private void BtnAddAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new AddNewAdminPage());
+        }
+
+        private void BtnAdminDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Button editButton = sender as Button;
+            Admin admin = editButton?.CommandParameter as Admin;
+
+            if (admin != null)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите удалить эту запись?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    database.DeleteAdminFromDatabase(admin.admin_id);
+                    AdminCollection = database.LoadAdminsFormDatabase();
+                    AdminsGrid.ItemsSource = AdminCollection;
+                }
+            }
+        }
+
+        private void BtnAdminEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button editButton = sender as Button;
+            Admin adminToEdit = editButton?.Tag as Admin;
+
+            if (adminToEdit != null)
+            {
+                EditAdminItemPage editProdPage = new EditAdminItemPage(adminToEdit);
+                this.NavigationService.Navigate(editProdPage);
             }
         }
     }

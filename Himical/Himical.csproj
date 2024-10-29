@@ -89,6 +89,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddNewAdminPage.xaml.cs">
+      <DependentUpon>AddNewAdminPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddNewCategoryPage.xaml.cs">
+      <DependentUpon>AddNewCategoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddNewItemPage.xaml.cs">
       <DependentUpon>AddNewItemPage.xaml</DependentUpon>
     </Compile>
@@ -107,6 +113,12 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseLoad.cs" />
+    <Compile Include="EditAdminItemPage.xaml.cs">
+      <DependentUpon>EditAdminItemPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditCategoryItemPage.xaml.cs">
+      <DependentUpon>EditCategoryItemPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditProductItemPage.xaml.cs">
       <DependentUpon>EditProductItemPage.xaml</DependentUpon>
     </Compile>
@@ -125,6 +137,14 @@
     <Compile Include="Supplies.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Page Include="AddNewAdminPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AddNewCategoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="AddNewItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +152,14 @@
     <Page Include="DatabasePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditAdminItemPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EditCategoryItemPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="EditProductItemPage.xaml">
       <SubType>Designer</SubType>

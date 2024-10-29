@@ -14,47 +14,139 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Button Content="Добавить" 
-                HorizontalAlignment="Left"
-                Height="30"
-                Width="100"
-                Name="BtnAdd" 
-                Click="BtnAdd_Click"
-                />
-        
-        <DataGrid Grid.Row="1" x:Name="ProductsGrid" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding product_id}" Width="Auto"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="Auto"/>
-                <DataGridTextColumn Header="Категория" Binding="{Binding category_name}" Width="Auto"/>
-                <DataGridTextColumn Header="Количество" Binding="{Binding quantity_in_stock}" Width="Auto"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding price_per_unit}" Width="Auto"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding description}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата производства" Binding="{Binding production_date}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата истечения" Binding="{Binding expiry_date}" Width="Auto"/>
-                <DataGridTextColumn Header="Ед. изм." Binding="{Binding unit_of_measurement}" Width="Auto"/>
-                <DataGridTemplateColumn Header="Редактировать" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Редактировать поле" 
-                                    Name="BtnEdit" 
-                                    Click="BtnEdit_Click"
-                                    Tag="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Действие" Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Удалить поле" 
-                                    Name="BtnDelete" 
-                                    Click="BtnDelete_Click"
-                                    CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl Grid.Row="0" Grid.RowSpan="2">
+            <TabItem Header="Таблица Продуктов">
+                <Grid Margin="0 10 0 0">
+                    <Button Content="Добавить" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="30"
+                            Width="100"
+                            Name="BtnAdd" 
+                            Click="BtnAdd_Click"
+                            />
+
+                    <DataGrid Grid.Row="1" Margin="0 35 0 0" x:Name="ProductsGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding product_id}" Width="Auto"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="Auto"/>
+                            <DataGridTextColumn Header="Категория" Binding="{Binding category_name}" Width="Auto"/>
+                            <DataGridTextColumn Header="Количество" Binding="{Binding quantity_in_stock}" Width="Auto"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding price_per_unit}" Width="Auto"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding description}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата производства" Binding="{Binding production_date}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата истечения" Binding="{Binding expiry_date}" Width="Auto"/>
+                            <DataGridTextColumn Header="Ед. изм." Binding="{Binding unit_of_measurement}" Width="Auto"/>
+                            <DataGridTemplateColumn Header="Редактировать" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Редактировать поле" 
+                            Name="BtnEdit" 
+                            Click="BtnEdit_Click"
+                            Tag="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Действие" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить поле" 
+                            Name="BtnDelete" 
+                            Click="BtnDelete_Click"
+                            CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+            </TabItem>
+            
+            <TabItem Header="Таблица Категорий">
+                <Grid>
+                    <Button Content="Добавить" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="30"
+                            Width="100"
+                            Name="BtnAddCategory" 
+                            Click="BtnAddCategory_Click"
+                            />
+                    
+                    <DataGrid Grid.Row="1" Margin="0 35 0 0" x:Name="CategoriesGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding category_id}" Width="Auto"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="*"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding description}" Width="*"/>
+                            <DataGridTemplateColumn Header="Редактировать" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Редактировать поле" 
+                                                Name="BtnCategoryEdit" 
+                                                Click="BtnCategoryEdit_Click"
+                                                Tag="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Действие" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить поле" 
+                                                Name="BtnCategoryDelete" 
+                                                Click="BtnCategoryDelete_Click"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Администраторы" Foreground="White">
+                <Grid>
+                    <Button Content="Добавить" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="30"
+                            Width="100"
+                            Name="BtnAddAdmin" 
+                            Click="BtnAddAdmin_Click"
+                            />
+
+                    <DataGrid Grid.Row="1" Margin="0 35 0 0" x:Name="AdminsGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding admin_id}" Width="Auto"/>
+                            <DataGridTextColumn Header="Логин" Binding="{Binding username}" Width="*"/>
+                            <DataGridTextColumn Header="Пароль" Binding="{Binding password_hash}" Width="*"/>
+                            <DataGridTemplateColumn Header="Редактировать" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Редактировать поле" 
+                                                Name="BtnAdminEdit" 
+                                                Click="BtnAdminEdit_Click"
+                                                Tag="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Действие" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить поле" 
+                                                Name="BtnAdminDelete" 
+                                                Click="BtnAdminDelete_Click"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>
