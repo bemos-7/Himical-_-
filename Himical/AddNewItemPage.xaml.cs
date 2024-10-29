@@ -52,5 +52,10 @@ namespace Himical
             database.AddNewProductItemInDatabase(prodName, category, quantity, price, description, productionDate, expiryDate, unit);
             this.NavigationService.Navigate(new DatabasePage());
         }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
     }
 }
