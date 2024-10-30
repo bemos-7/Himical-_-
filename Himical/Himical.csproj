@@ -122,6 +122,9 @@
     <Compile Include="EditProductItemPage.xaml.cs">
       <DependentUpon>EditProductItemPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Production.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -162,6 +165,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="EditProductItemPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

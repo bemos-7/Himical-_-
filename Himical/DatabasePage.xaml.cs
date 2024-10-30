@@ -25,7 +25,6 @@ namespace Himical
     public partial class DatabasePage : Page
     {
         DatabaseLoad database = new DatabaseLoad();
-
         public ObservableCollection<Product> ProductsCollection { get; set; } = new ObservableCollection<Product>();
         public ObservableCollection<Category> CategoryCollection { get; set; } = new ObservableCollection<Category>();
         public ObservableCollection<Admin> AdminCollection { get; set; } = new ObservableCollection<Admin>();
@@ -137,6 +136,30 @@ namespace Himical
                 EditAdminItemPage editProdPage = new EditAdminItemPage(adminToEdit);
                 this.NavigationService.Navigate(editProdPage);
             }
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            ProductsCollection.Clear();
+            string searchText = Search_TextBox.Text;
+            ProductsCollection = database.SearchProductsByName(searchText);
+            ProductsGrid.ItemsSource = ProductsCollection;
+        }
+
+        private void BtnSearchCategory_Click(object sender, RoutedEventArgs e)
+        {
+            CategoryCollection.Clear();
+            string searchText = Search_Category_TextBox.Text;
+            CategoryCollection = database.SearchCategoryByName(searchText);
+            CategoriesGrid.ItemsSource = CategoryCollection;
+        }
+
+        private void BtnSearchAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            AdminCollection.Clear();
+            string searchText = Search_Admin_TextBox.Text;
+            AdminCollection = database.SearchAdminByName(searchText);
+            AdminsGrid.ItemsSource = AdminCollection;
         }
     }
 }

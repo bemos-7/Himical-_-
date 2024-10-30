@@ -298,6 +298,137 @@ namespace Himical
                 }
             }
         }
+
+        public bool CheckAdmin(string username, string passwordHash)
+        {
+            bool isValid = false;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT COUNT(*) FROM Admins WHERE username = @username AND password_hash = @password_hash";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password_hash", passwordHash);
+
+                    int count = (int)command.ExecuteScalar();
+                    isValid = count > 0;
+                }
+            }
+            return isValid;
+        }
+
+        public ObservableCollection<Product> SearchProductsByName(string searchQuery)
+        {
+            ObservableCollection<Product> ProductCollection = new ObservableCollection<Product>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"SELECT p.product_id, p.name, p.category_id, p.quantity_in_stock, 
+                               p.price_per_unit, p.description, p.production_date, 
+                               p.expiry_date, p.unit_of_measurement, c.name AS category_name
+                        FROM Products p
+                        JOIN Categories c ON p.category_id = c.category_id
+                        WHERE p.name LIKE @SearchQuery";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ProductCollection.Add(new Product
+                            {
+                                product_id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                category_id = reader.GetInt32(2),
+                                quantity_in_stock = reader.GetInt32(3),
+                                price_per_unit = reader.GetDecimal(4),
+                                description = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                production_date = reader.IsDBNull(6) ? (DateTime?)null : reader.GetDateTime(6),
+                                expiry_date = reader.IsDBNull(7) ? (DateTime?)null : reader.GetDateTime(7),
+                                unit_of_measurement = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                category_name = reader.GetString(9),
+                            });
+                        }
+                    }
+                }
+            }
+            return ProductCollection;
+        }
+
+        public ObservableCollection<Category> SearchCategoryByName(string searchQuery)
+        {
+            ObservableCollection<Category> CategoryCollection = new ObservableCollection<Category>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"SELECT category_id, name, description
+                                FROM Categories
+                                WHERE name LIKE @SearchQuery";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            CategoryCollection.Add(new Category
+                            {
+                                category_id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                description = reader.GetString(2),
+                            });
+                        }
+                    }
+                }
+            }
+            return CategoryCollection;
+        }
+
+        public ObservableCollection<Admin> SearchAdminByName(string searchQuery)
+        {
+            ObservableCollection<Admin> AdminCollection = new ObservableCollection<Admin>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"SELECT admin_id, username, password_hash
+                        FROM Admins
+                        WHERE username LIKE @SearchQuery";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            AdminCollection.Add(new Admin
+                            {
+                                admin_id = reader.GetInt32(0),
+                                username = reader.GetString(1),
+                                password_hash = reader.GetString(2),
+                            });
+                        }
+                    }
+                }
+            }
+            return AdminCollection;
+        }
     }
 
     public class Product
