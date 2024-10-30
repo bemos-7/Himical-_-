@@ -30,7 +30,7 @@ namespace Himical
         private void Btn_Login_Click(object sender, RoutedEventArgs e)
         {
             string username = UserNameTextBox.Text;
-            string password = PasswordTextBox.Text;
+            string password = PasswordTextBox.Password;
             bool isAdmin = database.CheckAdmin(username, password);
 
             if (isAdmin)

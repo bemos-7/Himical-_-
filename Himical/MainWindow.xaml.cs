@@ -23,7 +23,20 @@ namespace Himical
         public MainWindow()
         {
             InitializeComponent();
-            MainFrameNav.Navigate(new DatabasePage());
+            MainFrameNav.Navigate(new LoginPage());
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Button_Click_Shut_Down(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
