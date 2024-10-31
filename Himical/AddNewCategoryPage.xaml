@@ -45,7 +45,6 @@
 
         </Border>
 
-
         <Button x:Name="AddNewItem"
                 Width="100"
                 Height="40"
