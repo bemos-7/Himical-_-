@@ -161,5 +161,10 @@ namespace Himical
             AdminCollection = database.SearchAdminByName(searchText);
             AdminsGrid.ItemsSource = AdminCollection;
         }
+
+        private void CreateReport_Click(object sender, RoutedEventArgs e)
+        {
+            database.SaveProductsToFile(ProductsCollection);
+        }
     }
 }
