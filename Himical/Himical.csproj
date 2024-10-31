@@ -260,6 +260,8 @@
       <LastGenOutput>Database.cs</LastGenOutput>
     </Content>
     <Content Include="Database\SQLQuery2.sql" />
+    <Resource Include="svg\document.png" />
+    <Content Include="svg\document.svg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
