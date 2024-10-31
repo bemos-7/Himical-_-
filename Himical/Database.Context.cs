@@ -15,21 +15,11 @@ namespace Himical
     
     public partial class ProductsDbEntities : DbContext
     {
-        private static ProductsDbEntities _context;
         public ProductsDbEntities()
             : base("name=ProductsDbEntities")
         {
         }
-
-        public static ProductsDbEntities GetContext()
-        {
-            if (_context == null)
-            {
-                _context = new ProductsDbEntities();
-            }
-            return _context;
-        }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
