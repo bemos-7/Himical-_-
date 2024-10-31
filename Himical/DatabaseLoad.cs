@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -428,6 +429,25 @@ namespace Himical
                 }
             }
             return AdminCollection;
+        }
+
+        public void SaveProductsToFile(ObservableCollection<Product> products, string filePath = "report_of_products.txt")
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine("Название товара\tКатегория\tКоличество на складе");
+
+                foreach (var product in products)
+                {
+                    writer.WriteLine($"{product.name}\t{product.category_name}\t{product.quantity_in_stock}");
+                }
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
         }
     }
 
