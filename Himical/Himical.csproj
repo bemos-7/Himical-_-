@@ -261,6 +261,7 @@
     </Content>
     <Content Include="Database\SQLQuery2.sql" />
     <Resource Include="svg\document.png" />
+    <Content Include="Database\SQLQueryFill.sql" />
     <Content Include="svg\document.svg" />
   </ItemGroup>
   <ItemGroup>
