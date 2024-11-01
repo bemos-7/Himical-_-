@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,6 +39,127 @@ namespace Himical
                 }
             }
             return CategoryCollection;
+        }
+
+        public ObservableCollection<Order> LoadOrdersFromDatabase() // загрузка Таблицы Orders из БД
+        {
+            ObservableCollection<Order> OrderCollection = new ObservableCollection<Order>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = @"
+                                SELECT o.order_id, o.product_id, o.quantity, o.price, o.order_date, o.total_amount, p.name AS product_name
+                                FROM Orders o
+                                JOIN Products p ON o.product_id = p.product_id";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        OrderCollection.Add(new Order
+                        {
+                            order_id = reader.GetInt32(0),
+                            product_id = reader.GetInt32(1),
+                            quantity = reader.GetInt32(2),
+                            price = reader.GetDecimal(3),
+                            order_date = reader.GetDateTime(4),
+                            total_amount = reader.GetDecimal(5),
+                            product_name = reader.GetString(6),
+                        });
+                    }
+                }
+            }
+            return OrderCollection;
+        }
+
+        public void AddNewOrderInDatabase(int productId, int quantity, decimal price, DateTime orderDate)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = @"
+                    INSERT INTO Orders 
+                    (product_id, quantity, price, order_date) 
+                    VALUES (@ProductId, @Quantity, @Price, @OrderDate)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ProductId", productId);
+                        command.Parameters.AddWithValue("@Quantity", quantity);
+                        command.Parameters.AddWithValue("@Price", price);
+                        command.Parameters.AddWithValue("@OrderDate", orderDate);
+
+                        command.ExecuteNonQuery();
+
+                        MessageBox.Show("Заказ успешно добавлен!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error - {ex.Message}");
+                }
+            }
+        }
+
+        public void UpdateOrderInDatabase(Order order) // Метод для изменения информации о заказе
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = @"
+                    UPDATE Orders 
+                    SET product_id = @ProductId, 
+                        quantity = @Quantity, 
+                        price = @Price, 
+                        order_date = @OrderDate 
+                    WHERE order_id = @OrderId";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ProductId", order.product_id);
+                        command.Parameters.AddWithValue("@Quantity", order.quantity);
+                        command.Parameters.AddWithValue("@Price", order.price);
+                        command.Parameters.AddWithValue("@OrderDate", order.order_date);
+                        command.Parameters.AddWithValue("@OrderId", order.order_id);
+
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Заказ успешно обновлён!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error - {ex.Message}");
+                }
+            }
+        }
+
+        public void DeleteOrderFromDatabase(int orderId) // Метод для удаления заказа по его идентификатору
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "DELETE FROM Orders WHERE order_id = @OrderId";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderId", orderId);
+                        command.ExecuteNonQuery();
+
+                        MessageBox.Show("Заказ успешно удалён!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error - {ex.Message}");
+                }
+            }
         }
 
         public void AddNewCategoryItemInDatabase(string name, string description)
@@ -398,6 +520,44 @@ namespace Himical
             return CategoryCollection;
         }
 
+        public ObservableCollection<Order> SearchOrderById(string searchQuery)
+        {
+            ObservableCollection<Order> OrderCollection = new ObservableCollection<Order>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"SELECT o.order_id, o.product_id, o.quantity, o.price, o.order_date, o.total_amount, p.name AS product_name
+                                FROM Orders o
+                                JOIN Products p ON o.product_id = p.product_id
+                                WHERE order_id LIKE @SearchQuery";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            OrderCollection.Add(new Order
+                            {
+                                order_id = reader.GetInt32(0),
+                                product_id = reader.GetInt32(1),
+                                quantity = reader.GetInt32(2),
+                                price = reader.GetDecimal(3),
+                                order_date = reader.GetDateTime(4),
+                                total_amount = reader.GetDecimal(5),
+                                product_name = reader.GetString(6),
+                            });
+                        }
+                    }
+                }
+            }
+            return OrderCollection;
+        }
+
         public ObservableCollection<Admin> SearchAdminByName(string searchQuery)
         {
             ObservableCollection<Admin> AdminCollection = new ObservableCollection<Admin>();
@@ -449,6 +609,24 @@ namespace Himical
                 UseShellExecute = true
             });
         }
+
+        public void SaveOrdersToFile(ObservableCollection<Order> orders, string filePath = "report_of_orders.txt")
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (var order in orders)
+                {
+                    writer.WriteLine($"Заказ: \n Продукт -> {order.product_name}\n Кол-во -> {order.quantity}Шт.\n К оплате -> {order.total_amount}руб.");
+                    writer.WriteLine("");
+                }
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
+        }
     }
 
     public class Product
@@ -477,5 +655,16 @@ namespace Himical
         public int admin_id { get; set; }
         public string username { get; set; }
         public string password_hash { get; set; }
+    }
+
+    public class Order
+    {
+        public int order_id { get; set; }
+        public int product_id { get; set; }
+        public int quantity { get; set; }
+        public decimal price { get; set; }
+        public DateTime? order_date { get; set; }
+        public decimal total_amount { get; set; }
+        public string product_name { get; set; }
     }
 }
