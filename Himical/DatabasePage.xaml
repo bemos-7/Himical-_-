@@ -144,7 +144,76 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            
+
+            <TabItem Header="Заказы" Foreground="White">
+                <Grid Margin="0 10 0 0">
+                    <Button Content="Добавить" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="30"
+                            Width="100"
+                            Name="BtnAddOrder" 
+                            Click="BtnAddOrder_Click"
+                            />
+
+                    <WrapPanel HorizontalAlignment="Right">
+                        <TextBox Width="200" 
+                                 x:Name="Search_Order_TextBox"
+                                 FontSize="16"
+                                 Foreground="White"
+                                 Text="№"
+                                 Margin="0 0 10 0"/>
+
+                        <Button Content="Поиск" 
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Height="30"
+                                Width="100"
+                                Name="BtnSearchOrder" 
+                                Click="BtnSearchOrder_Click"
+                                />
+
+                        <Button Padding="5 5 5 5" Height="30" Margin="10 0 5 0" 
+            x:Name="CreateOrderReport" Click="CreateOrderReport_Click">
+                            <Image Source="svg/document.png"/>
+                        </Button>
+                    </WrapPanel>
+
+                    <DataGrid Grid.Row="1" Margin="0 35 0 0" x:Name="OrdersGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер заказа" Binding="{Binding order_id}" Width="Auto"/>
+                            <DataGridTextColumn Header="Продукт" Binding="{Binding product_name}" Width="*"/>
+                            <DataGridTextColumn Header="Количество" Binding="{Binding quantity}" Width="*"/>
+                            <DataGridTextColumn Header="Цена за единицу" Binding="{Binding price}" Width="*"/>
+                            <DataGridTextColumn Header="Дата заказа" Binding="{Binding order_date}" Width="*"/>
+                            <DataGridTextColumn Header="Сумма к оплате" Binding="{Binding total_amount}" Width="*"/>
+                            <DataGridTemplateColumn Header="Редактировать" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Редактировать поле" 
+                                                Name="BtnOrderEdit" 
+                                                Click="BtnOrderEdit_Click"
+                                                Tag="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Действие" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить поле" 
+                                                Name="BtnOrderDelete" 
+                                                Click="BtnOrderDelete_Click"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
             <TabItem Header="Администраторы" Foreground="White">
                 <Grid Margin="0 10 0 0">
                     <Button Content="Добавить" 

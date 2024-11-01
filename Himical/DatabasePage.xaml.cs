@@ -28,15 +28,18 @@ namespace Himical
         public ObservableCollection<Product> ProductsCollection { get; set; } = new ObservableCollection<Product>();
         public ObservableCollection<Category> CategoryCollection { get; set; } = new ObservableCollection<Category>();
         public ObservableCollection<Admin> AdminCollection { get; set; } = new ObservableCollection<Admin>();
+        public ObservableCollection<Order> OrderCollection { get; set; } = new ObservableCollection<Order>();
         public DatabasePage()
         {
             InitializeComponent();
             ProductsCollection = database.LoadProductsFromDatabase();
             CategoryCollection = database.LoadCategoryFromDatabase();
             AdminCollection = database.LoadAdminsFormDatabase();
+            OrderCollection = database.LoadOrdersFromDatabase();
             ProductsGrid.ItemsSource = ProductsCollection;
             CategoriesGrid.ItemsSource = CategoryCollection;
             AdminsGrid.ItemsSource = AdminCollection;
+            OrdersGrid.ItemsSource = OrderCollection;
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
@@ -165,6 +168,51 @@ namespace Himical
         private void CreateReport_Click(object sender, RoutedEventArgs e)
         {
             database.SaveProductsToFile(ProductsCollection);
+        }
+
+        private void BtnAddOrder_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new AddNewOrderPage());
+        }
+        private void BtnOrderEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button editButton = sender as Button;
+            Order orderToEdit = editButton?.Tag as Order;
+
+            if (orderToEdit != null)
+            {
+                EditOrderItemPage editOrderPage = new EditOrderItemPage(orderToEdit);
+                this.NavigationService.Navigate(editOrderPage);
+            }
+        }
+
+        private void BtnOrderDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Button deleteButton = sender as Button;
+            var order = deleteButton?.CommandParameter as Order;
+
+            if (order != null)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите удалить эту запись?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    database.DeleteOrderFromDatabase(order.order_id);
+                    OrderCollection = database.LoadOrdersFromDatabase();
+                    OrdersGrid.ItemsSource = OrderCollection;
+                }
+            }
+        }
+
+        private void CreateOrderReport_Click(object sender, RoutedEventArgs e)
+        {
+            database.SaveOrdersToFile(OrderCollection);
+        }
+
+        private void BtnSearchOrder_Click(object sender, RoutedEventArgs e)
+        {
+            OrderCollection.Clear();
+            string searchQuery = Search_Order_TextBox.Text;
+            OrderCollection = database.SearchOrderById(searchQuery);
+            OrdersGrid.ItemsSource = OrderCollection;
         }
     }
 }
