@@ -85,3 +85,15 @@ CREATE TABLE Admins (
     password_hash NVARCHAR(255) NOT NULL
 );
 GO
+
+-- Таблица Заказов
+CREATE TABLE Orders (
+    order_id INT IDENTITY(1,1) PRIMARY KEY,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    order_date DATE NOT NULL,
+    total_amount AS (quantity * price) PERSISTED,
+    FOREIGN KEY (product_id) REFERENCES Products (product_id),
+);
+GO
