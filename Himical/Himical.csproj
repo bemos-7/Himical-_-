@@ -89,16 +89,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddNewAdminPage.xaml.cs">
+    <Compile Include="UI\AddNewAdminPage.xaml.cs">
       <DependentUpon>AddNewAdminPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddNewCategoryPage.xaml.cs">
+    <Compile Include="UI\AddNewCategoryPage.xaml.cs">
       <DependentUpon>AddNewCategoryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddNewOrderPage.xaml.cs">
+    <Compile Include="UI\AddNewOrderPage.xaml.cs">
       <DependentUpon>AddNewOrderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddNewItemPage.xaml.cs">
+    <Compile Include="UI\AddNewItemPage.xaml.cs">
       <DependentUpon>AddNewItemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Admins.cs">
@@ -115,20 +115,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseLoad.cs" />
-    <Compile Include="EditAdminItemPage.xaml.cs">
+    <Compile Include="data\DatabaseLoad.cs" />
+    <Compile Include="UI\EditAdminItemPage.xaml.cs">
       <DependentUpon>EditAdminItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditCategoryItemPage.xaml.cs">
+    <Compile Include="UI\EditCategoryItemPage.xaml.cs">
       <DependentUpon>EditCategoryItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditOrderItemPage.xaml.cs">
+    <Compile Include="UI\EditOrderItemPage.xaml.cs">
       <DependentUpon>EditOrderItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditProductItemPage.xaml.cs">
+    <Compile Include="UI\EditProductItemPage.xaml.cs">
       <DependentUpon>EditProductItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginPage.xaml.cs">
+    <Compile Include="UI\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Production.cs">
@@ -146,47 +146,47 @@
     <Compile Include="Supplies.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Page Include="AddNewAdminPage.xaml">
+    <Page Include="UI\AddNewAdminPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AddNewCategoryPage.xaml">
+    <Page Include="UI\AddNewCategoryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AddNewOrderPage.xaml">
+    <Page Include="UI\AddNewOrderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AddNewItemPage.xaml">
+    <Page Include="UI\AddNewItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DatabasePage.xaml">
+    <Page Include="UI\DatabasePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditAdminItemPage.xaml">
+    <Page Include="UI\EditAdminItemPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="EditCategoryItemPage.xaml">
+    <Page Include="UI\EditCategoryItemPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="EditOrderItemPage.xaml">
+    <Page Include="UI\EditOrderItemPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="EditProductItemPage.xaml">
+    <Page Include="UI\EditProductItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginPage.xaml">
+    <Page Include="UI\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -204,10 +204,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DatabasePage.xaml.cs">
+    <Compile Include="UI\DatabasePage.xaml.cs">
       <DependentUpon>DatabasePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -274,9 +274,9 @@
       <LastGenOutput>Database.cs</LastGenOutput>
     </Content>
     <Content Include="Database\SQLQuery2.sql" />
-    <Resource Include="svg\document.png" />
+    <Resource Include="UI\svg\document.png" />
     <Content Include="Database\SQLQueryFill.sql" />
-    <Content Include="svg\document.svg" />
+    <Content Include="UI\svg\document.svg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
