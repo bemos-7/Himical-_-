@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System.Windows;
 
 namespace Himical
@@ -591,15 +594,39 @@ namespace Himical
             return AdminCollection;
         }
 
-        public void SaveProductsToFile(ObservableCollection<Product> products, string filePath = "report_of_products.txt")
+        public void SaveProductsToFile(ObservableCollection<Product> products, string filePath = "report_of_products.xlsx")
         {
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (var package = new ExcelPackage())
             {
-                writer.WriteLine("Название товара\tКатегория\tКоличество на складе");
+                var worksheet = package.Workbook.Worksheets.Add("Отчет о товарах");
 
+                worksheet.Cells[1, 1].Value = "Название товара";
+                worksheet.Cells[1, 2].Value = "Категория";
+                worksheet.Cells[1, 3].Value = "Количество на складе";
+
+                using (var range = worksheet.Cells[1, 1, 1, 3])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                }
+
+                int row = 2;
                 foreach (var product in products)
                 {
-                    writer.WriteLine($"{product.name}\t{product.category_name}\t{product.quantity_in_stock}");
+                    worksheet.Cells[row, 1].Value = product.name;
+                    worksheet.Cells[row, 2].Value = product.category_name;
+                    worksheet.Cells[row, 3].Value = product.quantity_in_stock;
+                    row++;
+                }
+
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    package.SaveAs(fileStream);
                 }
             }
 
@@ -610,15 +637,43 @@ namespace Himical
             });
         }
 
-        public void SaveOrdersToFile(ObservableCollection<Order> orders, string filePath = "report_of_orders.txt")
+        public void SaveOrdersToFile(ObservableCollection<Order> orders, string filePath = "report_of_orders.xlsx")
         {
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (var package = new ExcelPackage())
             {
+                var worksheet = package.Workbook.Worksheets.Add("Orders");
+
+                worksheet.Cells[1, 1].Value = "Номер Заказа";
+                worksheet.Cells[1, 2].Value = "Продукт";
+                worksheet.Cells[1, 3].Value = "Кол-во";
+                worksheet.Cells[1, 4].Value = "К оплате";
+
+                using (var range = worksheet.Cells[1, 1, 1, 4])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                    range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                }
+
+                int row = 2;
                 foreach (var order in orders)
                 {
-                    writer.WriteLine($"Заказ: \n Продукт -> {order.product_name}\n Кол-во -> {order.quantity}Шт.\n К оплате -> {order.total_amount}руб.");
-                    writer.WriteLine("");
+                    worksheet.Cells[row, 1].Value = $"{row - 1}";
+                    worksheet.Cells[row, 2].Value = order.product_name;
+                    worksheet.Cells[row, 3].Value = $"{order.quantity} Шт.";
+                    worksheet.Cells[row, 4].Value = $"{order.total_amount} руб.";
+
+                    worksheet.Cells[row, 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                    worksheet.Cells[row, 3].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 4].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                    row++;
                 }
+
+                FileInfo fileInfo = new FileInfo(filePath);
+                package.SaveAs(fileInfo);
             }
 
             Process.Start(new ProcessStartInfo
