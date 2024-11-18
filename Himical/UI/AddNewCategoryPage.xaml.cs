@@ -39,8 +39,18 @@ namespace Himical
 
         private void AddNewItem_Click(object sender, RoutedEventArgs e)
         {
-            string name = NameTextBox.Text;
-            string description = DescriptionTextBox.Text;
+            string name = NameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Имя категории не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            string description = DescriptionTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(description))
+            {
+                MessageBox.Show("Описание категории не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             database.AddNewCategoryItemInDatabase(name, description);
 

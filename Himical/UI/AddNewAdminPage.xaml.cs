@@ -33,8 +33,19 @@ namespace Himical
 
         private void AddNewItem_Click(object sender, RoutedEventArgs e)
         {
-            string username = UserNameTextBox.Text;
-            string password = PasswordTextBox.Text;
+            string username = UserNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(username))
+            {
+                MessageBox.Show("Имя пользователя не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string password = PasswordTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Пароль не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             database.AddNewAdminItemInDatabase(username, password);
 

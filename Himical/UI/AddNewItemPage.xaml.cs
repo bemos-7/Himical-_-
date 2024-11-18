@@ -40,14 +40,54 @@ namespace Himical
 
         private void AddNewItem_Click(object sender, RoutedEventArgs e)
         {
-            string prodName = NameTextBox.Text;
+            string prodName = NameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(prodName))
+            {
+                MessageBox.Show("Название продукта не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (SelectedCategoryId == 0)
+            {
+                MessageBox.Show("Выберите категорию.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             int category = SelectedCategoryId;
-            int quantity = int.Parse(QuantityTextBox.Text);
-            decimal price = decimal.Parse(PriceTextBox.Text);
-            string description = DescriptionTextBox.Text;
-            DateTime productionDate = ProductionDatePicker.SelectedDate.HasValue ? ProductionDatePicker.SelectedDate.Value : DateTime.Now;
-            DateTime expiryDate = ExpiryDatePicker.SelectedDate.HasValue ? ExpiryDatePicker.SelectedDate.Value : DateTime.Now;
-            string unit = WeightTextBox.Text;
+
+            if (!int.TryParse(QuantityTextBox.Text, out int quantity) || quantity <= 0)
+            {
+                MessageBox.Show("Введите корректное количество (положительное целое число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(PriceTextBox.Text, out decimal price) || price <= 0)
+            {
+                MessageBox.Show("Введите корректную цену (положительное число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string description = DescriptionTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(description))
+            {
+                MessageBox.Show("Описание не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            DateTime productionDate = ProductionDatePicker.SelectedDate ?? DateTime.Now;
+
+            DateTime expiryDate = ExpiryDatePicker.SelectedDate ?? DateTime.Now;
+            if (expiryDate <= productionDate)
+            {
+                MessageBox.Show("Дата истечения срока годности должна быть позже даты производства.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string unit = WeightTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(unit))
+            {
+                MessageBox.Show("Единица измерения не может быть пустой.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             database.AddNewProductItemInDatabase(prodName, category, quantity, price, description, productionDate, expiryDate, unit);
             this.NavigationService.Navigate(new DatabasePage());
