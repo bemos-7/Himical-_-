@@ -37,8 +37,22 @@ namespace Himical
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            _admin.username = UserNameTextBox.Text;
-            _admin.password_hash = PasswordTextBox.Text;
+            string username = UserNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(username))
+            {
+                MessageBox.Show("Имя пользователя не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string password = PasswordTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Пароль не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _admin.username = username;
+            _admin.password_hash = password;
 
             database.UpdateAdminInDatabase(_admin);
             this.NavigationService.Navigate(new DatabasePage());

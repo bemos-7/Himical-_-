@@ -45,9 +45,27 @@ namespace Himical
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             _order.product_id = SelectedProductId;
-            _order.quantity = Convert.ToInt32(QuantityTextBox.Text);
-            _order.price = Convert.ToDecimal(QuantityTextBox.Text);
-            _order.order_date = OrderDateDatePicker.SelectedDate;
+
+            if (!int.TryParse(QuantityTextBox.Text, out int quantity) || quantity <= 0)
+            {
+                MessageBox.Show("Введите корректное количество (положительное целое число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _order.quantity = quantity;
+
+            if (!decimal.TryParse(PriceTextBox.Text, out decimal price) || price <= 0)
+            {
+                MessageBox.Show("Введите корректную цену (положительное число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _order.price = price;
+
+            _order.order_date = OrderDateDatePicker.SelectedDate ?? DateTime.Now;
+            if (_order.order_date > DateTime.Now)
+            {
+                MessageBox.Show("Дата заказа не может быть в будущем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             database.UpdateOrderInDatabase(_order);
             this.NavigationService.Navigate(new DatabasePage());

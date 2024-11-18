@@ -37,8 +37,22 @@ namespace Himical
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            _category.name = NameTextBox.Text;
-            _category.description = DescriptionTextBox.Text;
+            string name = NameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Имя категории не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string description = DescriptionTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(description))
+            {
+                MessageBox.Show("Описание категории не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _category.name = name;
+            _category.description = description;
 
             database.UpdateCategoryInDatabase(_category);
             this.NavigationService.Navigate(new DatabasePage());

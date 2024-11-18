@@ -40,9 +40,27 @@ namespace Himical
         private void AddNewItem_Click(object sender, RoutedEventArgs e)
         {
             int product_id = SelectedProductId;
-            int quantity = int.Parse(QuantityTextBox.Text);
-            decimal price = decimal.Parse(PriceTextBox.Text);
-            DateTime order_date = OrderDateDatePicker.SelectedDate.HasValue ? OrderDateDatePicker.SelectedDate.Value : DateTime.Now;
+
+            if (!int.TryParse(QuantityTextBox.Text, out int quantity) || quantity <= 0)
+            {
+                MessageBox.Show("Введите корректное количество (положительное целое число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Проверка цены
+            if (!decimal.TryParse(PriceTextBox.Text, out decimal price) || price <= 0)
+            {
+                MessageBox.Show("Введите корректную цену (положительное число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Проверка даты заказа
+            DateTime order_date = OrderDateDatePicker.SelectedDate ?? DateTime.Now;
+            if (order_date > DateTime.Now)
+            {
+                MessageBox.Show("Дата заказа не может быть в будущем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             database.AddNewOrderInDatabase(product_id, quantity, price, order_date);
             this.NavigationService.Navigate(new DatabasePage());

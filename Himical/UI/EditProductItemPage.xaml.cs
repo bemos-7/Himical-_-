@@ -48,14 +48,80 @@ namespace Himical
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            _product.name = NameTextBox.Text;
+            string name = NameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Имя продукта не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _product.name = name;
+
+            // Проверка категории
+            if (SelectedCategoryId <= 0) // Предполагается, что ID категории должен быть положительным
+            {
+                MessageBox.Show("Выберите категорию.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             _product.category_id = SelectedCategoryId;
-            _product.quantity_in_stock = Convert.ToInt32(QuantityTextBox.Text);
-            _product.price_per_unit = Convert.ToDecimal(PriceTextBox.Text);
-            _product.description = DescriptionTextBox.Text;
-            _product.production_date = ProductionDatePicker.SelectedDate;
-            _product.expiry_date = ExpiryDatePicker.SelectedDate;
-            _product.unit_of_measurement = WeightTextBox.Text;
+
+            // Проверка количества на складе
+            if (!int.TryParse(QuantityTextBox.Text, out int quantityInStock) || quantityInStock < 0)
+            {
+                MessageBox.Show("Введите корректное количество на складе (неотрицательное целое число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _product.quantity_in_stock = quantityInStock;
+
+            // Проверка цены за единицу
+            if (!decimal.TryParse(PriceTextBox.Text, out decimal pricePerUnit) || pricePerUnit <= 0)
+            {
+                MessageBox.Show("Введите корректную цену за единицу (положительное число).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _product.price_per_unit = pricePerUnit;
+
+            // Проверка описания
+            string description = DescriptionTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(description))
+            {
+                MessageBox.Show("Описание продукта не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _product.description = description;
+
+            // Проверка дат
+            DateTime? productionDate = ProductionDatePicker.SelectedDate;
+            DateTime? expiryDate = ExpiryDatePicker.SelectedDate;
+
+            if (!productionDate.HasValue)
+            {
+                MessageBox.Show("Укажите дату производства.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!expiryDate.HasValue)
+            {
+                MessageBox.Show("Укажите дату истечения срока годности.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (expiryDate.Value <= productionDate.Value)
+            {
+                MessageBox.Show("Дата истечения срока годности должна быть позже даты производства.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _product.production_date = productionDate;
+            _product.expiry_date = expiryDate;
+
+            // Проверка единицы измерения
+            string unit = WeightTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(unit))
+            {
+                MessageBox.Show("Единица измерения не может быть пустой.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            _product.unit_of_measurement = unit;
 
             database.UpdateProductInDatabase(_product);
             this.NavigationService.Navigate(new DatabasePage());
